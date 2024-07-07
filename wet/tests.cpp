@@ -1,6 +1,7 @@
 
 
 #include <string>
+#include <iostream>
 
 #include "Matrix.h"
 #include "MataMvidia.h"
