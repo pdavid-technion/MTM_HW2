@@ -18,14 +18,20 @@ enum DEVIL_FRUIT {
 class Pirate {
 private:
     string name;
+<<<<<<< HEAD
     int bounty;
-    DEVIL_FRUIT devilFruit;
 
 public:
     Pirate(const string& name);
     Pirate();
     Pirate(const string& name, int bounty);
-    Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty);
+=======
+    DEVIL_FRUIT devilFruit;
+
+public:
+    Pirate(const string& name, DEVIL_FRUIT devilFruit = DEVIL_FRUIT::NONE);
+
+>>>>>>> origin/devil_fruit
     ~Pirate() = default;
 
     int getBounty();

@@ -2,12 +2,14 @@
 #include "Pirate.h"
 
 
+<<<<<<< HEAD
+Pirate::Pirate(const string& name): name(name), bounty(0) {}
+Pirate::Pirate(): name(""), bounty(0) {}
+Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty) {}
+=======
+Pirate::Pirate(const string& name, DEVIL_FRUIT devilFruit): name(name), devilFruit(devilFruit) {}
 
-Pirate::Pirate(const string& name): name(name), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
-Pirate::Pirate(): name(""), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
-Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty), devilFruit(DEVIL_FRUIT::NONE) {}
-Pirate::Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty): name(name), bounty(bounty), devilFruit(devilFruit) {}
-
+>>>>>>> origin/devil_fruit
 
 void Pirate::setName(const string& name){
     this->name = name;
@@ -40,7 +42,11 @@ const char* const devilFruitNames[] = {
 };
 
 std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
-    os << "name: " << pirate.name << ", bounty: " << pirate.bounty << " (Devil Fruit: " << devilFruitNames[pirate.devilFruit] << ")";
+<<<<<<< HEAD
+    os << "name: " << pirate.name << ", bounty: " << pirate.bounty;
+=======
+    os << pirate.name << " (Devil Fruit: " << devilFruitNames[pirate.devilFruit] << ")";
+>>>>>>> origin/devil_fruit
     return os;
 }
 
