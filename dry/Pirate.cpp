@@ -3,7 +3,7 @@
 
 
 Pirate::Pirate(const string& name): name(name) {}
-
+Pirate::Pirate(): name("") {}
 
 void Pirate::setName(const string& name){
     this->name = name;
