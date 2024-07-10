@@ -10,6 +10,7 @@ int main() {
 
     Pirate luffy("Luffy", GUM_GUM_FRUIT, 1000000);
     Pirate zoro("Zoro", 500000);
+    Pirate try("try", 500000);
 
 
     const int crewSize = 2;
