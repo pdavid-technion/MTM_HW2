@@ -10,8 +10,6 @@ private:
     int *matrix;
 
 public:
-    int getRows();
-    int getColumns();
     Matrix();
     Matrix(int n, int m);
     Matrix(const Matrix &matrixToCopy);
