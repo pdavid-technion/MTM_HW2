@@ -26,14 +26,6 @@ Matrix::~Matrix() {
     delete[] matrix;
 }
 
-int Matrix::getRows() // TODO - DAVID - Remove!!! getters and setters are not allowed
-{
-    return this->rows;
-}
-int Matrix::getColumns()
-{
-    return this->columns;
-}
 
 Matrix &Matrix::operator=(const Matrix &matrixToAssign) {
     if (this == &matrixToAssign) {
