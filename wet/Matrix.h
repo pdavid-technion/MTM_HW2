@@ -27,6 +27,8 @@ public:
     Matrix operator*(const int &lambda) const; //SHELLY - Changed to work from a const instance
     Matrix &operator*=(const int &lambda); // DAVID - why did you pass the integer as a reference?
     Matrix rotateClockwise();
+    Matrix rotateCounterClockwise();
+    Matrix transpose();
 
     void checkMatchingSizes(const Matrix &secondMatrix) const;
 
