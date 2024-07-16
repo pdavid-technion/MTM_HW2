@@ -1,11 +1,7 @@
 #include "Pirate.h"
 
-
-
-Pirate::Pirate(const string& name): name(name), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
 Pirate::Pirate(): name(""), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
-Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty), devilFruit(DEVIL_FRUIT::NONE) {}
-Pirate::Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty): name(name), bounty(bounty), devilFruit(devilFruit) {}
+Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty): name(name), bounty(bounty), devilFruit(devilFruit) {}
 
 
 void Pirate::setName(const string& name){
