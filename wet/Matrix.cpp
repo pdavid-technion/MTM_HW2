@@ -31,19 +31,9 @@ Matrix::~Matrix()
     delete[] matrix;
 }
 
-int Matrix::getRows() // TODO - DAVID - Remove!!! getters and setters are not allowed
-{
-    return this->rows;
-}
-int Matrix::getColumns()
-{
-    return this->columns;
-}
 
-Matrix &Matrix::operator=(const Matrix &matrixToAssign)
-{
-    if (this == &matrixToAssign)
-    {
+Matrix &Matrix::operator=(const Matrix &matrixToAssign) {
+    if (this == &matrixToAssign) {
         return *this;
     }
     rows = matrixToAssign.rows;
@@ -233,19 +223,35 @@ bool operator==(const Matrix &firstMatrix, const Matrix &secondMatrix)
     return true;
 }
 
-bool operator!=(const Matrix &firstMatrix, const Matrix &secondMatrix)
-{
-    return !(firstMatrix == secondMatrix);
+bool operator!=(const Matrix& firstMatrix, const Matrix& secondMatrix){
+    return !(*this == m2);
 }
 
-Matrix Matrix::rotateClockwise()
-{
+Matrix Matrix::rotateClockwise() {
     Matrix result(this->columns, this->rows);
-    for (int j = 0; j < this->columns; j++)
-    {
-        for (int i = 0; i < result.rows; i++)
-        {
-            result(j, i) = (*this)(i, j);
+    for(int j = 0; j < this->columns; j++) {
+        for(int i = 0; i < this->rows; i++) {
+            result(j,this->rows-1-i) = (*this)(i,j);
+        }
+    }
+    return result;
+}
+
+Matrix Matrix::rotateCounterClockwise() {
+    Matrix result(this->columns, this->rows);
+    for(int j = 0; j < this->columns; j++) {
+        for(int i = 0; i < this->rows; i++) {
+            result(this->columns-1-j,i) = (*this)(i,j);
+        }
+    }
+    return result;
+}
+
+Matrix Matrix::transpose() {
+    Matrix result(this->columns, this->rows);
+    for(int j = 0; j < this->columns; j++) {
+        for(int i = 0; i < this->rows; i++) {
+            result(j,i) = (*this)(i,j);
         }
     }
     return result;

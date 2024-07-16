@@ -11,8 +11,6 @@ private:
     int* matrix;
 
 public:
-    int getRows();
-    int getColumns();
     Matrix();
     Matrix(int n, int m);
     Matrix(const Matrix &matrixToCopy);
@@ -30,6 +28,8 @@ public:
     
     Matrix &operator*=(const int &lambda); // DAVID - why did you pass the integer as a reference?
     Matrix rotateClockwise();
+    Matrix rotateCounterClockwise();
+    Matrix transpose();
 
     void checkMatchingSizes(const Matrix &secondMatrix) const;
 
