@@ -12,8 +12,7 @@ MataMvidia::MataMvidia(string movieName, string movieCreator, Matrix *frames, in
     movieCreator(movieCreator) {
     this->frames = new Matrix[size];
 
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         this->frames[i] = Matrix(frames[i]);
     }
 }
@@ -24,21 +23,17 @@ MataMvidia::MataMvidia(const MataMvidia &movieToCopy) :
     movieCreator(movieToCopy.movieCreator) {
 
     this->frames = new Matrix[this->size];
-    for (int i = 0; i < this->size; i++)
-    {
+    for (int i = 0; i < this->size; i++) {
         this->frames[i] = Matrix(movieToCopy.frames[i]);
     }
 }
 
-MataMvidia::~MataMvidia()
-{
+MataMvidia::~MataMvidia() {
     delete[] frames;
 }
 
-MataMvidia &MataMvidia::operator=(const MataMvidia &movieToAssign)
-{
-    if (this == &movieToAssign)
-    {
+MataMvidia &MataMvidia::operator=(const MataMvidia &movieToAssign) {
+    if (this == &movieToAssign) {
         return *this;
     }
 
@@ -49,44 +44,36 @@ MataMvidia &MataMvidia::operator=(const MataMvidia &movieToAssign)
 
     frames = new Matrix[size];
 
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         frames[i] = Matrix(movieToAssign.frames[i]);
     }
 
     return *this;
 }
 
-const Matrix &MataMvidia::operator[](int frameIndex) const
-{
-    if (frameIndex >= size)
-    {
+const Matrix &MataMvidia::operator[](int frameIndex) const {
+    if (frameIndex >= size) {
         exitWithError(MatamErrorType::OutOfBounds);
     }
     return frames[frameIndex];
 }
 
-Matrix &MataMvidia::operator[](int frameIndex)
-{
-    if (frameIndex >= size)
-    {
+Matrix &MataMvidia::operator[](int frameIndex) {
+    if (frameIndex >= size) {
         exitWithError(MatamErrorType::OutOfBounds);
     }
     return frames[frameIndex];
 }
 
-MataMvidia &MataMvidia::operator+=(const MataMvidia &movieToAppend)
-{
+MataMvidia &MataMvidia::operator+=(const MataMvidia &movieToAppend) {
 
     Matrix* allFrames = new Matrix[size + movieToAppend.size];
 
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         allFrames[i] = frames[i];
     }
 
-    for (int i = 0; i < movieToAppend.size; i++)
-    {
+    for (int i = 0; i < movieToAppend.size; i++) {
         allFrames[size + i] = movieToAppend.frames[i];
     }
 
@@ -113,7 +100,7 @@ MataMvidia &MataMvidia::operator+=(const Matrix &frameToAppend) {
     return *this;
 }
 
-MataMvidia operator+(const MataMvidia& firstMovie, const MataMvidia& secondMovie){
+MataMvidia operator+(const MataMvidia& firstMovie, const MataMvidia& secondMovie) {
     MataMvidia combinedMovie = MataMvidia(firstMovie);
     combinedMovie += secondMovie;
     return combinedMovie;
@@ -121,14 +108,14 @@ MataMvidia operator+(const MataMvidia& firstMovie, const MataMvidia& secondMovie
 
 std::ostream &operator<<(std::ostream &os, const MataMvidia& movie){
         os << "Movie Name: " << movie.movieName << std::endl;
-        os << "Author: " << movie.movieCreator << std::endl;
+        os << "Author: " << movie.movieCreator << std::endl << std::endl;
 
-        for( int i = 0; i < movie.size; i++ ){
+        for( int i = 0; i < movie.size; i++ ) {
             os << "Frame " << i << ":" << std::endl;
             os << movie.frames[i] << std::endl;
         }
 
-        os << "-----End of Movie-----";
+        os << "-----End of Movie-----" << std::endl;
 
         return os;
 }

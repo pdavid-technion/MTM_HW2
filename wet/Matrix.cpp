@@ -1,31 +1,26 @@
 #include "Matrix.h"
-Matrix::Matrix() : rows(0), columns(0)
-{
+
+Matrix::Matrix() : rows(0), columns(0) {
     this->matrix = new int[0];
 }
 
-Matrix::Matrix(int n, int m) : rows(n), columns(m)
-{
+Matrix::Matrix(int n, int m) : rows(n), columns(m) {
     this->matrix = new int[rows * columns];
-    for (int i = 0; i < rows * columns; i++)
-    {
+    for (int i = 0; i < rows * columns; i++) {
         this->matrix[i] = 0;
     }
 }
 
-Matrix::Matrix(const Matrix &matrixToCopy) : // SHELLY - Change parameter names
-                                             rows(matrixToCopy.rows),
-                                             columns(matrixToCopy.columns),
-                                             matrix(new int[rows * columns]) // TODO - SHELLY - Adjust spacing
-{
-    for (int i = 0; i < rows * columns; i++)
-    {
+Matrix::Matrix(const Matrix &matrixToCopy) :
+    rows(matrixToCopy.rows),
+    columns(matrixToCopy.columns),
+    matrix(new int[rows * columns]) {
+    for (int i = 0; i < rows * columns; i++) {
         matrix[i] = matrixToCopy.matrix[i];
     }
 }
 
-Matrix::~Matrix()
-{
+Matrix::~Matrix() {
     delete[] matrix;
 }
 
@@ -36,176 +31,144 @@ Matrix &Matrix::operator=(const Matrix &matrixToAssign) {
     }
     rows = matrixToAssign.rows;
     columns = matrixToAssign.columns;
+    
     delete[] matrix;
+    
     matrix = new int[rows * columns];
-    for (int i = 0; i < rows * columns; i++)
-    {
+    
+    for (int i = 0; i < rows * columns; i++) {
         matrix[i] = matrixToAssign.matrix[i];
     }
     return *this;
 }
 
-const int &Matrix::operator()(int i, int j) const
-{
-    if (i < 0 || j < 0 || i >= rows || j >= columns)
-    {
+const int &Matrix::operator()(int i, int j) const {
+    if (i < 0 || j < 0 || i >= rows || j >= columns) {
         exitWithError(MatamErrorType::OutOfBounds);
     }
     return matrix[i * columns + j];
 }
 
-int &Matrix::operator()(int i, int j)
-{
-    if (i < 0 || j < 0 || i >= rows || j >= columns)
-    {
+int &Matrix::operator()(int i, int j) {
+    if (i < 0 || j < 0 || i >= rows || j >= columns) {
         exitWithError(MatamErrorType::OutOfBounds);
     }
     return matrix[i * columns + j];
 }
 
-std::ostream &operator<<(std::ostream &os, const Matrix &m)
-{
-    for (int i = 0; i < (m.rows); i++)
-    {
-        for (int j = 0; j < (m.columns); j++)
-        {
+std::ostream &operator<<(std::ostream &os, const Matrix &m) {
+    if(m.rows == 0 || m.columns == 0 ) {
+        return os;
+    }
+
+    for (int i = 0; i < (m.rows); i++) {
+        for (int j = 0; j < (m.columns); j++) {
             os << "|" << m(i, j);
         }
-        os << "|" << "\n";
+        os << "|" << std::endl;
     }
     return os;
 }
 
-void Matrix::checkMatchingSizes(const Matrix &secondMatrix) const
-{
-    if (this->columns != secondMatrix.columns || this->rows != secondMatrix.rows)
-    {
-        exitWithError(MatamErrorType::UnmatchedSizes);
-    }
-}
-
-// TODO - SHELLY - convert to outer operator + check bounds
-Matrix operator+(const Matrix &matrix1, const Matrix &matrix2)
-{
-    Matrix result = Matrix(matrix1);
-    result += matrix2;
+Matrix operator+(const Matrix &leftMatrix, const Matrix &rightMatrix) {
+    Matrix result = Matrix(leftMatrix);
+    result += rightMatrix;
     return result;
 }
 
-// SHELLY - Check matching sizes
-Matrix &Matrix::operator+=(const Matrix &matrixToAdd)
-{
+Matrix &Matrix::operator+=(const Matrix &matrixToAdd) {
 
-    this->checkMatchingSizes(matrixToAdd);
+      if (this->columns != matrixToAdd.columns || this->rows != matrixToAdd.rows) {
+        exitWithError(MatamErrorType::UnmatchedSizes);
+    }
 
-    for (int i = 0; i < (this->rows * this->columns); i++)
-    {
+    for (int i = 0; i < (this->rows * this->columns); i++) {
         (this->matrix)[i] = (this->matrix)[i] + (matrixToAdd.matrix)[i];
     }
+    
     return *this;
 }
 
-// TODO - SHELLY - convert to outer operator + check bounds
-Matrix operator-(const Matrix &matrix1, const Matrix &matrix2)
-{
-    Matrix result = Matrix(matrix1);
-    result -= matrix2;
+Matrix operator-(const Matrix &leftMatrix, const Matrix &rightMatrix) {
+    Matrix result = Matrix(leftMatrix);
+    result -= rightMatrix;
     return result;
 }
 
-// SHELLY - Check matching sizes
-Matrix &Matrix::operator-=(const Matrix &matrixToSubtract)
-{
-    this->checkMatchingSizes(matrixToSubtract);
+Matrix &Matrix::operator-=(const Matrix &matrixToSubtract) {
+      
+    if (this->columns != matrixToSubtract.columns ||
+        this->rows != matrixToSubtract.rows) {
+        exitWithError(MatamErrorType::UnmatchedSizes);
+    }
 
-    for (int i = 0; i < (this->rows * this->columns); i++)
-    {
+    for (int i = 0; i < (this->rows * this->columns); i++) {
         (this->matrix)[i] = (this->matrix)[i] - (matrixToSubtract.matrix)[i];
     }
     return *this;
 }
 
-// TODO - SHELLY - convert to outer operator + check bounds
-Matrix operator*(const Matrix &matrix1, const Matrix &matrix2)
-{
-    Matrix result = Matrix(matrix1);
-    result *= matrix2;
+Matrix operator*(const Matrix &leftMatrix, const Matrix &rightMatrix) {
+    Matrix result = Matrix(leftMatrix);
+    result *= rightMatrix;
     return result;
 }
 
-// SHELLY - Check matching sizes
-Matrix &Matrix::operator*=(const Matrix &matrixToMultiply)
-{
+Matrix &Matrix::operator*=(const Matrix &matrixToMultiply) {
 
-    if (this->columns != matrixToMultiply.rows)
-    {
+    if (this->columns != matrixToMultiply.rows) {
         exitWithError(MatamErrorType::UnmatchedSizes);
     }
 
     Matrix result = Matrix(this->rows, matrixToMultiply.columns);
 
-    for (int i = 0; i < (this->rows); i++)
-    {
-        for (int j = 0; j < (matrixToMultiply.columns); j++)
-        {
+    for (int i = 0; i < (this->rows); i++) {
+        for (int j = 0; j < (matrixToMultiply.columns); j++) {
 
             int currentCell = 0;
 
-            for (int counter = 0; counter < (this->columns); counter++)
-            {
+            for (int counter = 0; counter < (this->columns); counter++) {
                 currentCell += (*this)(i, counter) * (matrixToMultiply)(counter, j);
             }
 
             result(i, j) = currentCell;
         }
     }
+
     *this = result;
     return *this;
 }
 
-// SHELLY - Use previous operators
-Matrix Matrix::operator-()
-{
+Matrix Matrix::operator-() {
     return (*this) * -1;
 }
 
-// SHELLY - Use previous operators
-Matrix operator*(const Matrix &matrixToMultiply, const int &lambda)
-{
+Matrix operator*(const Matrix &matrixToMultiply, const int &lambda) {
     Matrix result = Matrix(matrixToMultiply);
     result *= lambda;
     return result;
 }
 
-Matrix operator*(const int &lambda, const Matrix &matrixToMultiply)
-{
+Matrix operator*(const int &lambda, const Matrix &matrixToMultiply) {
     Matrix result = Matrix(matrixToMultiply);
     result *= lambda;
     return result;
 }
 
-// SHELLY - Simplify
-Matrix &Matrix::operator*=(const int &lambda)
-{
-    for (int i = 0; i < (this->rows * this->columns); i++)
-    {
+Matrix &Matrix::operator*=(const int &lambda) {
+    for (int i = 0; i < (this->rows * this->columns); i++) {
         (this->matrix)[i] = lambda * (this->matrix)[i];
     }
     return *this;
 }
 
-// SHELLY - Adjust to 2 matrices
-bool operator==(const Matrix &firstMatrix, const Matrix &secondMatrix)
-{
-    if (firstMatrix.rows != secondMatrix.rows || firstMatrix.columns != secondMatrix.columns)
-    {
+bool operator==(const Matrix &leftMatrix, const Matrix &rightMatrix) {
+    if (leftMatrix.rows != rightMatrix.rows || leftMatrix.columns != rightMatrix.columns) {
         return false;
     }
 
-    for (int i = 0; i < (firstMatrix.rows * firstMatrix.columns); i++)
-    {
-        if ((firstMatrix.matrix)[i] != (secondMatrix.matrix)[i])
-        {
+    for (int i = 0; i < (leftMatrix.rows * leftMatrix.columns); i++) {
+        if ((leftMatrix.matrix)[i] != (rightMatrix.matrix)[i]) {
             return false;
         }
     }
@@ -213,15 +176,14 @@ bool operator==(const Matrix &firstMatrix, const Matrix &secondMatrix)
     return true;
 }
 
-bool operator!=(const Matrix &firstMatrix, const Matrix &secondMatrix)
-{
-    return !(firstMatrix == secondMatrix);
+bool operator!=(const Matrix &leftMatrix, const Matrix &rightMatrix) {
+    return !(leftMatrix == rightMatrix);
 }
 
 Matrix Matrix::rotateClockwise() {
     Matrix result(this->columns, this->rows);
-    for(int j = 0; j < this->columns; j++) {
-        for(int i = 0; i < this->rows; i++) {
+    for( int j = 0; j < this->columns; j++) {
+        for( int i = 0; i < this->rows; i++) {
             result(j,this->rows-1-i) = (*this)(i,j);
         }
     }
