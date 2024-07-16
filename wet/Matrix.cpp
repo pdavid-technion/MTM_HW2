@@ -1,6 +1,4 @@
 #include "Matrix.h"
-#include <iostream>
-
 Matrix::Matrix() : rows(0), columns(0)
 {
     this->matrix = new int[0];
@@ -199,11 +197,6 @@ Matrix &Matrix::operator*=(const int &lambda)
 // SHELLY - Adjust to 2 matrices
 bool operator==(const Matrix &firstMatrix, const Matrix &secondMatrix)
 {
-    // std::cout << "entered ==" << std::endl;
-    //  std::cout << "firstMatrix.rows: " << firstMatrix.rows << std::endl;
-    //  std::cout << "secondMatrix.rows: " << secondMatrix.rows << std::endl;
-    //  std::cout << "firstMatrix.columns: " << firstMatrix.columns << std::endl;
-    //  std::cout << "secondMatrix.columns: " << secondMatrix.columns << std::endl;
     if (firstMatrix.rows != secondMatrix.rows || firstMatrix.columns != secondMatrix.columns)
     {
         return false;
@@ -213,18 +206,16 @@ bool operator==(const Matrix &firstMatrix, const Matrix &secondMatrix)
     {
         if ((firstMatrix.matrix)[i] != (secondMatrix.matrix)[i])
         {
-        //      std::cout << "i: " << i << std::endl;
-        //      std::cout << "firstMatrix.matrix[i]: " << (firstMatrix.matrix)[i] << std::endl;
-        //      std::cout << "secondMatrix.matrix[i]: " << (secondMatrix.matrix)[i] << std::endl;
             return false;
         }
     }
-    //  std::cout << "end of ==" << std::endl;
+
     return true;
 }
 
-bool operator!=(const Matrix& firstMatrix, const Matrix& secondMatrix){
-    return !(*this == m2);
+bool operator!=(const Matrix &firstMatrix, const Matrix &secondMatrix)
+{
+    return !(firstMatrix == secondMatrix);
 }
 
 Matrix Matrix::rotateClockwise() {
