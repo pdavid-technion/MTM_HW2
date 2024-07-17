@@ -150,8 +150,7 @@ Matrix operator*(const Matrix &matrixToMultiply, const int &lambda) {
 }
 
 Matrix operator*(const int &lambda, const Matrix &matrixToMultiply) {
-    Matrix result = Matrix(matrixToMultiply);
-    result *= lambda;
+    Matrix result = matrixToMultiply * lambda;
     return result;
 }
 
