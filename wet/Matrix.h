@@ -39,7 +39,6 @@ std::ostream &operator<<(std::ostream &os, const Matrix &matrix);
 Matrix operator+(const Matrix &leftMatrix, const Matrix &rightMatrix);
 Matrix operator-(const Matrix &leftMatrix, const Matrix &rightMatrix);
 Matrix operator*(const Matrix &leftMatrix, const Matrix &rightMatrix);
-Matrix operator*(const Matrix &matrixToMultiply, const int &lambda);
 bool operator==(const Matrix& leftMatrix, const Matrix& rightMatrix);
 bool operator!=(const Matrix& leftMatrix, const Matrix& rightMatrix);
 Matrix operator*(const Matrix &matrixToMultiply, const int &lambda);
