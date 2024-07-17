@@ -191,12 +191,7 @@ Matrix Matrix::rotateClockwise() {
 }
 
 Matrix Matrix::rotateCounterClockwise() {
-    Matrix result(this->columns, this->rows);
-    for(int j = 0; j < this->columns; j++) {
-        for(int i = 0; i < this->rows; i++) {
-            result(this->columns-1-j,i) = (*this)(i,j);
-        }
-    }
+    Matrix result = this->rotateClockwise().rotateClockwise().rotateClockwise();
     return result;
 }
 
