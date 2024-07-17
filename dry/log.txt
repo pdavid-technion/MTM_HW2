@@ -1,298 +1,104 @@
-* commit bf9458d3c76ad14da8342053ee8ea9c58d5842ea
-| Author: root <root@DESKTOP-7F7K97L>
-| Date:   Wed Jul 10 14:20:38 2024 +0300
+* commit b24c1f72a93a847ce463fef0f8c33c7bd1ac1f3a
+| Author: ShellyLeron <119409890+ShellyLeron@users.noreply.github.com>
+| Date:   Wed Jul 17 15:57:49 2024 +0300
 | 
-|     merge conflicts try4
+|     shelly resolve conflicts
 | 
+| diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
+| index 43b66e6..c0577c9 100644
+| --- a/dry/Pirate.cpp
+| +++ b/dry/Pirate.cpp
+| @@ -1,8 +1,7 @@
+| -
+|  #include "Pirate.h"
+|  
+| -Pirate::Pirate(): name(""), bounty(0){}
+| -Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty) {}
+| +Pirate::Pirate(): name(""), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
+| +Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty): name(name), bounty(bounty), devilFruit(devilFruit) {}
+|  
+|  
+|  void Pirate::setName(const string& name){
+| @@ -36,7 +35,7 @@ const char* const devilFruitNames[] = {
+|  };
+|  
+|  std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
+| -    os << pirate.name << ", bounty: " << pirate.bounty;
+| +    os << "name: " << pirate.name << ", bounty: " << pirate.bounty << " (Devil Fruit: " << devilFruitNames[pirate.devilFruit] << ")";
+|      return os;
+|  }
+|  
+| @@ -46,4 +45,4 @@ int Pirate::getBounty(){
+|  
+|  void Pirate::setBounty(int bounty){
+|      this->bounty = bounty;
+| -}
+| +}
+| \ No newline at end of file
+| diff --git a/dry/Pirate.h b/dry/Pirate.h
+| index 187f495..53c24f6 100644
+| --- a/dry/Pirate.h
+| +++ b/dry/Pirate.h
+| @@ -19,20 +19,21 @@ class Pirate {
+|  private:
+|      string name;
+|      int bounty;
+| +    DEVIL_FRUIT devilFruit;
+|  
+|  public:
+| -    Pirate(const string& name, int bounty = 0);
+| +    Pirate(const string& name = "", DEVIL_FRUIT devilFruit = DEVIL_FRUIT::NONE, int bounty = 0);
+|      Pirate();
+| -
+|      ~Pirate() = default;
+|  
+| +    int getBounty();
+| +    void setBounty(int bounty);
+| +
+|      void setName(const string& name);
+|      void setDevilFruit(DEVIL_FRUIT devilFruit);
+|  
+|      string getName();
+| -
+| -    int getBounty();
+| -    void setBounty(int bounty);
+| +    DEVIL_FRUIT getDevilFruit();
+|  
+|      friend std::ostream &operator<<(std::ostream &os, const Pirate &pirate);
+| -};
+| +};
+| \ No newline at end of file
 | diff --git a/dry/main.cpp b/dry/main.cpp
-| index 3bfa21c..fb100ed 100644
+| index 56c480c..fb100ed 100644
 | --- a/dry/main.cpp
 | +++ b/dry/main.cpp
-| @@ -10,7 +10,6 @@ int main() {
+| @@ -7,9 +7,11 @@ using std::cout, std::endl;
 |  
-|      Pirate luffy("Luffy", GUM_GUM_FRUIT, 1000000);
+|  int main() {
+|  
+| -    Pirate luffy("Luffy", 1000000);
+| +
+| +    Pirate luffy("Luffy", GUM_GUM_FRUIT, 1000000);
 |      Pirate zoro("Zoro", 500000);
-| -    Pirate try("try", 500000);
 |  
-|  
+| +
 |      const int crewSize = 2;
+|      
+|      Pirate strawHatCrew[2];
+| @@ -22,4 +24,4 @@ int main() {
+|      }
+|  
+|      return 0;
+| -}
+| +}
+| \ No newline at end of file
 |   
-*   commit 21282cb8ccf1a8b51d3d1fe4c7df33b994fda990
-|\  Merge: 9a00f81 ef004c5
-| | Author: root <root@DESKTOP-7F7K97L>
-| | Date:   Wed Jul 10 14:18:14 2024 +0300
+*   commit ac79070adb4b431f4bc9efe6f52d2b58f4145876
+|\  Merge: 6199132 568c994
+| | Author: ShellyLeron <119409890+ShellyLeron@users.noreply.github.com>
+| | Date:   Wed Jul 17 15:57:39 2024 +0300
 | | 
-| |     merge devil_fruit
-| | 
-| * commit ef004c59ff3946b3b85d63cd58bc437a1f6957ed
-| | Author: pdavid-technion <103374296+pdavid-technion@users.noreply.github.com>
-| | Date:   Wed Jul 10 14:12:33 2024 +0300
-| | 
-| |     Update main.cpp
-| | 
-| | diff --git a/dry/main.cpp b/dry/main.cpp
-| | index 1f9333f..2911f71 100644
-| | --- a/dry/main.cpp
-| | +++ b/dry/main.cpp
-| | @@ -9,7 +9,6 @@ int main() {
-| |  
-| |      Pirate luffy("Luffy", GUM_GUM_FRUIT);
-| |      Pirate zoro("Zoro");
-| | -    Pirate try("try", 400000);
-| |  
-| |      const int crewSize = 2;
-| |      
-| | 
-| * commit 4e21869afd7a47d439e9710bfbc2e1c946019399
-| | Author: pdavid-technion <103374296+pdavid-technion@users.noreply.github.com>
-| | Date:   Wed Jul 10 14:11:32 2024 +0300
-| | 
-| |     Update main.cpp
-| | 
-| | diff --git a/dry/main.cpp b/dry/main.cpp
-| | index 2911f71..1f9333f 100644
-| | --- a/dry/main.cpp
-| | +++ b/dry/main.cpp
-| | @@ -9,6 +9,7 @@ int main() {
-| |  
-| |      Pirate luffy("Luffy", GUM_GUM_FRUIT);
-| |      Pirate zoro("Zoro");
-| | +    Pirate try("try", 400000);
-| |  
-| |      const int crewSize = 2;
-| |      
-| | 
-* | commit 9a00f81a6aebd4c1eb32eb784feddcaa5fa37f65
-| | Author: root <root@DESKTOP-7F7K97L>
-| | Date:   Wed Jul 10 14:10:11 2024 +0300
-| | 
-| |     merge conflicts try3
-| | 
-| | diff --git a/dry/main.cpp b/dry/main.cpp
-| | index fb100ed..3bfa21c 100644
-| | --- a/dry/main.cpp
-| | +++ b/dry/main.cpp
-| | @@ -10,6 +10,7 @@ int main() {
-| |  
-| |      Pirate luffy("Luffy", GUM_GUM_FRUIT, 1000000);
-| |      Pirate zoro("Zoro", 500000);
-| | +    Pirate try("try", 500000);
-| |  
-| |  
-| |      const int crewSize = 2;
-| | 
-* | commit 2c8af9e93d88c14c4e6748c26c8aaf351cf0965d
-| | Author: root <root@DESKTOP-7F7K97L>
-| | Date:   Wed Jul 10 14:03:20 2024 +0300
-| | 
-| |     merge conflicts try2
-| | 
-| | diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
-| | index f2c0282..a8c710d 100644
-| | --- a/dry/Pirate.cpp
-| | +++ b/dry/Pirate.cpp
-| | @@ -1,15 +1,12 @@
-| | -
-| |  #include "Pirate.h"
-| |  
-| |  
-| | -<<<<<<< HEAD
-| | -Pirate::Pirate(const string& name): name(name), bounty(0) {}
-| | -Pirate::Pirate(): name(""), bounty(0) {}
-| | -Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty) {}
-| | -=======
-| | -Pirate::Pirate(const string& name, DEVIL_FRUIT devilFruit): name(name), devilFruit(devilFruit) {}
-| |  
-| | ->>>>>>> origin/devil_fruit
-| | +Pirate::Pirate(const string& name): name(name), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
-| | +Pirate::Pirate(): name(""), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
-| | +Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty), devilFruit(DEVIL_FRUIT::NONE) {}
-| | +Pirate::Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty): name(name), bounty(bounty), devilFruit(devilFruit) {}
-| | +
-| |  
-| |  void Pirate::setName(const string& name){
-| |      this->name = name;
-| | @@ -42,11 +39,7 @@ const char* const devilFruitNames[] = {
-| |  };
-| |  
-| |  std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
-| | -<<<<<<< HEAD
-| | -    os << "name: " << pirate.name << ", bounty: " << pirate.bounty;
-| | -=======
-| | -    os << pirate.name << " (Devil Fruit: " << devilFruitNames[pirate.devilFruit] << ")";
-| | ->>>>>>> origin/devil_fruit
-| | +    os << "name: " << pirate.name << ", bounty: " << pirate.bounty << " (Devil Fruit: " << devilFruitNames[pirate.devilFruit] << ")";
-| |      return os;
-| |  }
-| |  
-| | @@ -56,4 +49,4 @@ int Pirate::getBounty(){
-| |  
-| |  void Pirate::setBounty(int bounty){
-| |      this->bounty = bounty;
-| | -}
-| | +}
-| | \ No newline at end of file
-| | diff --git a/dry/Pirate.h b/dry/Pirate.h
-| | index 4a7cdfa..708ce95 100644
-| | --- a/dry/Pirate.h
-| | +++ b/dry/Pirate.h
-| | @@ -18,20 +18,14 @@ enum DEVIL_FRUIT {
-| |  class Pirate {
-| |  private:
-| |      string name;
-| | -<<<<<<< HEAD
-| |      int bounty;
-| | +    DEVIL_FRUIT devilFruit;
-| |  
-| |  public:
-| |      Pirate(const string& name);
-| |      Pirate();
-| |      Pirate(const string& name, int bounty);
-| | -=======
-| | -    DEVIL_FRUIT devilFruit;
-| | -
-| | -public:
-| | -    Pirate(const string& name, DEVIL_FRUIT devilFruit = DEVIL_FRUIT::NONE);
-| | -
-| | ->>>>>>> origin/devil_fruit
-| | +    Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty);
-| |      ~Pirate() = default;
-| |  
-| |      int getBounty();
-| | @@ -44,4 +38,4 @@ public:
-| |      DEVIL_FRUIT getDevilFruit();
-| |  
-| |      friend std::ostream &operator<<(std::ostream &os, const Pirate &pirate);
-| | -};
-| | +};
-| | \ No newline at end of file
-| | diff --git a/dry/main.cpp b/dry/main.cpp
-| | index f8573f5..fb100ed 100644
-| | --- a/dry/main.cpp
-| | +++ b/dry/main.cpp
-| | @@ -7,13 +7,10 @@ using std::cout, std::endl;
-| |  
-| |  int main() {
-| |  
-| | -<<<<<<< HEAD
-| | -    Pirate luffy("Luffy", 1000000);
-| | +
-| | +    Pirate luffy("Luffy", GUM_GUM_FRUIT, 1000000);
-| |      Pirate zoro("Zoro", 500000);
-| | -=======
-| | -    Pirate luffy("Luffy", GUM_GUM_FRUIT);
-| | -    Pirate zoro("Zoro");
-| | ->>>>>>> origin/devil_fruit
-| | +
-| |  
-| |      const int crewSize = 2;
-| |      
-| | @@ -27,4 +24,4 @@ int main() {
-| |      }
-| |  
-| |      return 0;
-| | -}
-| | +}
-| | \ No newline at end of file
-| | 
-* | commit 8290910c8d606352203ee3d1091a5930ab1dce47
-| | Author: root <root@DESKTOP-7F7K97L>
-| | Date:   Wed Jul 10 13:58:01 2024 +0300
-| | 
-| |     merge conflicts try1
-| | 
-| | diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
-| | index 986adf9..f2c0282 100644
-| | --- a/dry/Pirate.cpp
-| | +++ b/dry/Pirate.cpp
-| | @@ -2,12 +2,14 @@
-| |  #include "Pirate.h"
-| |  
-| |  
-| | +<<<<<<< HEAD
-| | +Pirate::Pirate(const string& name): name(name), bounty(0) {}
-| | +Pirate::Pirate(): name(""), bounty(0) {}
-| | +Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty) {}
-| | +=======
-| | +Pirate::Pirate(const string& name, DEVIL_FRUIT devilFruit): name(name), devilFruit(devilFruit) {}
-| |  
-| | -Pirate::Pirate(const string& name): name(name), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
-| | -Pirate::Pirate(): name(""), bounty(0), devilFruit(DEVIL_FRUIT::NONE) {}
-| | -Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty), devilFruit(DEVIL_FRUIT::NONE) {}
-| | -Pirate::Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty): name(name), bounty(bounty), devilFruit(devilFruit) {}
-| | -
-| | +>>>>>>> origin/devil_fruit
-| |  
-| |  void Pirate::setName(const string& name){
-| |      this->name = name;
-| | @@ -40,7 +42,11 @@ const char* const devilFruitNames[] = {
-| |  };
-| |  
-| |  std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
-| | -    os << "name: " << pirate.name << ", bounty: " << pirate.bounty << " (Devil Fruit: " << devilFruitNames[pirate.devilFruit] << ")";
-| | +<<<<<<< HEAD
-| | +    os << "name: " << pirate.name << ", bounty: " << pirate.bounty;
-| | +=======
-| | +    os << pirate.name << " (Devil Fruit: " << devilFruitNames[pirate.devilFruit] << ")";
-| | +>>>>>>> origin/devil_fruit
-| |      return os;
-| |  }
-| |  
-| | diff --git a/dry/Pirate.h b/dry/Pirate.h
-| | index b73c4bf..4a7cdfa 100644
-| | --- a/dry/Pirate.h
-| | +++ b/dry/Pirate.h
-| | @@ -18,14 +18,20 @@ enum DEVIL_FRUIT {
-| |  class Pirate {
-| |  private:
-| |      string name;
-| | +<<<<<<< HEAD
-| |      int bounty;
-| | -    DEVIL_FRUIT devilFruit;
-| |  
-| |  public:
-| |      Pirate(const string& name);
-| |      Pirate();
-| |      Pirate(const string& name, int bounty);
-| | -    Pirate(const string& name, DEVIL_FRUIT devilFruit, int bounty);
-| | +=======
-| | +    DEVIL_FRUIT devilFruit;
-| | +
-| | +public:
-| | +    Pirate(const string& name, DEVIL_FRUIT devilFruit = DEVIL_FRUIT::NONE);
-| | +
-| | +>>>>>>> origin/devil_fruit
-| |      ~Pirate() = default;
-| |  
-| |      int getBounty();
-| | diff --git a/dry/main.cpp b/dry/main.cpp
-| | index eaec32f..f8573f5 100644
-| | --- a/dry/main.cpp
-| | +++ b/dry/main.cpp
-| | @@ -7,10 +7,13 @@ using std::cout, std::endl;
-| |  
-| |  int main() {
-| |  
-| | -
-| | -    Pirate luffy("Luffy", GUM_GUM_FRUIT, 1000000);
-| | +<<<<<<< HEAD
-| | +    Pirate luffy("Luffy", 1000000);
-| |      Pirate zoro("Zoro", 500000);
-| | -
-| | +=======
-| | +    Pirate luffy("Luffy", GUM_GUM_FRUIT);
-| | +    Pirate zoro("Zoro");
-| | +>>>>>>> origin/devil_fruit
-| |  
-| |      const int crewSize = 2;
-| |      
-| | 
-* | commit 60dfd73b9d4292294d8282bf6a9a93ff2a6a57e4
-|\| Merge: 1bf1029 568c994
-| | Author: root <root@DESKTOP-7F7K97L>
-| | Date:   Wed Jul 10 13:53:23 2024 +0300
-| | 
-| |     merge conflicts
+| |     Merge remote-tracking branch 'upstream/devil_fruit'
 | | 
 | * commit 568c99477019f8cd7db1c7b7f5a9efd4ae0658ff
 | | Author: AdiHarif <adi.harif@campus.technion.ac.il>
@@ -398,34 +204,33 @@
 | |  
 | |      const int crewSize = 2;
 | | 
-* | commit 1bf1029de5974e572c1081205f3170ed071142b2
-| | Author: root <root@DESKTOP-7F7K97L>
-| | Date:   Wed Jul 10 13:29:25 2024 +0300
+* | commit 61991325428f063f0ea4f1141f4090fa30bfbcb4
+| | Author: ShellyLeron <119409890+ShellyLeron@users.noreply.github.com>
+| | Date:   Wed Jul 17 15:53:27 2024 +0300
 | | 
-| |     adding bounty property
+| |     shelly - add bounty
 | | 
 | | diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
-| | index 76b707d..8463ce5 100644
+| | index 4b363f5..f0fbc54 100644
 | | --- a/dry/Pirate.cpp
 | | +++ b/dry/Pirate.cpp
-| | @@ -2,8 +2,9 @@
+| | @@ -1,8 +1,8 @@
+| |  
 | |  #include "Pirate.h"
 | |  
-| |  
+| | -Pirate::Pirate(): name(""){}
 | | -Pirate::Pirate(const string& name): name(name) {}
-| | -Pirate::Pirate(): name("") {}
-| | +Pirate::Pirate(const string& name): name(name), bounty(0) {}
-| | +Pirate::Pirate(): name(""), bounty(0) {}
+| | +Pirate::Pirate(): name(""), bounty(0){}
 | | +Pirate::Pirate(const string& name, int bounty): name(name), bounty(bounty) {}
 | |  
+| |  
 | |  void Pirate::setName(const string& name){
-| |      this->name = name;
-| | @@ -16,6 +17,14 @@ std::string Pirate::getName(){
+| | @@ -16,6 +16,14 @@ std::string Pirate::getName(){
 | |  
 | |  
 | |  std::ostream &operator<<(std::ostream &os, const Pirate &pirate){
 | | -    os << pirate.name;
-| | +    os << "name: " << pirate.name << ", bounty: " << pirate.bounty;
+| | +    os << pirate.name << ", bounty: " << pirate.bounty;
 | |      return os;
 | |  }
 | | +
@@ -437,27 +242,30 @@
 | | +    this->bounty = bounty;
 | | +}
 | | diff --git a/dry/Pirate.h b/dry/Pirate.h
-| | index 5cdfc27..046ae29 100644
+| | index 958a879..117a7af 100644
 | | --- a/dry/Pirate.h
 | | +++ b/dry/Pirate.h
-| | @@ -8,12 +8,17 @@ using std::string;
+| | @@ -8,9 +8,10 @@ using std::string;
 | |  class Pirate {
 | |  private:
 | |      string name;
 | | +    int bounty;
 | |  
 | |  public:
-| |      Pirate(const string& name);
+| | -    Pirate(const string& name);
+| | +    Pirate(const string& name, int bounty = 0);
 | |      Pirate();
-| | +    Pirate(const string& name, int bounty);
+| |  
 | |      ~Pirate() = default;
+| | @@ -19,5 +20,8 @@ public:
+| |  
+| |      string getName();
 | |  
 | | +    int getBounty();
 | | +    void setBounty(int bounty);
 | | +
-| |      void setName(const string& name);
-| |  
-| |      string getName();
+| |      friend std::ostream &operator<<(std::ostream &os, const Pirate &pirate);
+| |  };
 | | diff --git a/dry/main.cpp b/dry/main.cpp
 | | index 6b659a1..56c480c 100644
 | | --- a/dry/main.cpp
@@ -474,38 +282,37 @@
 | |      const int crewSize = 2;
 | |      
 | | 
-* | commit be811097b65f4bd3cff4b6d0b9d5555770398c1d
-| | Author: root <root@DESKTOP-7F7K97L>
-| | Date:   Wed Jul 10 13:27:00 2024 +0300
+* | commit 94d50aa9704225b8147b42add8de569cbbfc366a
+| | Author: ShellyLeron <119409890+ShellyLeron@users.noreply.github.com>
+| | Date:   Wed Jul 17 15:48:14 2024 +0300
 | | 
-| |     adding constructor
+| |     Shelly first fix - compilation error
 | | 
 | | diff --git a/dry/Pirate.cpp b/dry/Pirate.cpp
-| | index c96892e..76b707d 100644
+| | index c96892e..4b363f5 100644
 | | --- a/dry/Pirate.cpp
 | | +++ b/dry/Pirate.cpp
-| | @@ -3,7 +3,7 @@
+| | @@ -1,7 +1,7 @@
 | |  
+| |  #include "Pirate.h"
 | |  
-| |  Pirate::Pirate(const string& name): name(name) {}
 | | -
-| | +Pirate::Pirate(): name("") {}
+| | +Pirate::Pirate(): name(""){}
+| |  Pirate::Pirate(const string& name): name(name) {}
 | |  
-| |  void Pirate::setName(const string& name){
-| |      this->name = name;
+| |  
 | | diff --git a/dry/Pirate.h b/dry/Pirate.h
-| | index 7769667..5cdfc27 100644
+| | index 7769667..958a879 100644
 | | --- a/dry/Pirate.h
 | | +++ b/dry/Pirate.h
-| | @@ -11,7 +11,7 @@ private:
+| | @@ -11,6 +11,7 @@ private:
 | |  
 | |  public:
 | |      Pirate(const string& name);
-| | -
 | | +    Pirate();
+| |  
 | |      ~Pirate() = default;
 | |  
-| |      void setName(const string& name);
 | | 
 * | commit a4c954a3d77adff7c45bab8b97d133d8dcb382d7
 | | Author: Adi Harif <adi.harif@campus.technion.ac.il>
